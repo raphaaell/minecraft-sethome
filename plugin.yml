@@ -1,0 +1,50 @@
+name: Sethome
+version: 1.0.0
+author: Raph
+main: fr.raph.sethome.main.Main
+api-version: 1.13
+commands:
+  home:
+    description: Commande pour se téléporter à un home pour de voir la liste des homes
+    aliases: h
+  sethome:
+    description: Commande pour créer un home à sa position
+    alisases: sh
+  homes:
+    description: Commande pour voir les homes des autres joueurs
+  home-tp:
+    description: Commande pour se téléporter à un home d'un autre joueur
+  delhome:
+    description: Commande pour supprimer un home
+    aliases: dh
+  delhomes:
+    description: Commande pour supprimer un home d'un autre joueur
+permissions:
+  sethome.*:
+    description: Permettre toutes les commandes aux joueurs
+    default: op
+    children:
+      sethome.home: true
+      sethome.sethome: true
+      sethome.homes: true
+      sethome.home-tp: true
+      sethome.delhome: true
+      sethome.delhomes: true
+  sethome.home:
+    description: Permettre aux joueurs de se téléporter ou de voir la liste de leurs homes
+    default: true
+  sethome.sethome:
+    description: Permettre aux joueurs de créer un home
+    default: true
+  sethome.homes:
+    description: Permettre aux joueurs de voir les homes des autres joueurs
+    default: false
+  sethome.home-tp:
+    description: Permettre aux joueurs de se téléporter aux homes des autres joueurs
+    default: false
+  sethome.delhome:
+    description: Permettre aux joueurs de supprimer un home
+    default: true
+  sethome.delhomes:
+    description: Permettre aux joueurs de supprimer un home des autres joueurs
+    default: false

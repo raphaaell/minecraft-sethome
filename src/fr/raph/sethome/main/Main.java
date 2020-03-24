@@ -28,7 +28,7 @@ public class Main extends JavaPlugin {
 		getCommand("home").setExecutor(cmdP);
 		getCommand("sethome").setExecutor(cmdP);
 		getCommand("delhome").setExecutor(cmdP);
-		CommandExecutor cmdA = new CommandsAdmin();
+		CommandExecutor cmdA = new CommandsAdmin(this);
 		getCommand("homes").setExecutor(cmdA);
 		getCommand("home-tp").setExecutor(cmdA);
 		getCommand("delhomes").setExecutor(cmdA);

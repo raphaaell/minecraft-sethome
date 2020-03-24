@@ -35,10 +35,11 @@ public class CommandsPrincipal implements CommandExecutor {
 			if(cmd.getName().equalsIgnoreCase("home")) {
 				
 				if(!p.hasPermission("sethome.home")) {
-					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous"
+					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous "
 							+ "devriez avoir accès à cette commande.");
 					return false;
 				}
+				
 				ArrayList<String> homes = getHomes(p);
 
 				if(args.length == 0) {
@@ -77,10 +78,8 @@ public class CommandsPrincipal implements CommandExecutor {
 				
 			}else if(cmd.getName().equalsIgnoreCase("sethome")) {
 				
-				ArrayList<String> homes = getHomes(p);
-				
 				if(!p.hasPermission("sethome.sethome")) {
-					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous"
+					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous "
 							+ "devriez avoir accès à cette commande.");
 					return false;
 				}
@@ -97,7 +96,6 @@ public class CommandsPrincipal implements CommandExecutor {
 				plugin.getHomesConfig().set("Home." + p.getUniqueId().toString() + "." + args[0].toString() + ".Pitch", Float.valueOf(p.getLocation().getPitch()));
 				plugin.getHomesConfig().set("Home." + p.getUniqueId().toString() + "." + args[0].toString() + ".World", p.getWorld().getName());
 				
-				
 				try {
 					
 					plugin.getHomesConfig().save(plugin.homesFile);
@@ -113,7 +111,7 @@ public class CommandsPrincipal implements CommandExecutor {
 
 				
 				if(!p.hasPermission("sethome.delhome")) {
-					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous"
+					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous "
 							+ "devriez avoir accès à cette commande.");
 					return false;
 				}
@@ -137,14 +135,9 @@ public class CommandsPrincipal implements CommandExecutor {
 				}
 				
 				p.sendMessage(prefixGame + ChatColor.AQUA + "L'home " + ChatColor.RED + args[0].toString() + ChatColor.AQUA + " a été supprimé !");
-				
-				
-				
+							
 			}
-			
-			
-			
-			
+
 		}else
 			sender.sendMessage(prefixError + ChatColor.RED + "Cette commande ne peut être exécuter que par un joueur !");
 		

@@ -9,7 +9,7 @@ commands:
     aliases: h
   sethome:
     description: Commande pour créer un home à sa position
-    alisases: sh
+    aliases: sh
   homes:
     description: Commande pour voir les homes des autres joueurs
   home-tp:

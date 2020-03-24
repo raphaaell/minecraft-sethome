@@ -2,8 +2,6 @@ package fr.raph.sethome.cmd;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -41,14 +39,17 @@ public class CommandsPrincipal implements CommandExecutor {
 							+ "devriez avoir accès à cette commande.");
 					return false;
 				}
-				ArrayList<String> homes = new ArrayList<String>();
-				for(String string : plugin.getHomesConfig().getConfigurationSection("Home." + p.getUniqueId().toString()).getKeys(false)) {
-					homes.add(string);
-				}
-				if(args.length == 0) {
+				ArrayList<String> homes = getHomes(p);
 
-					p.sendMessage(prefixGame + ChatColor.RED + "Voici la liste de vos homes : " + ChatColor.AQUA + homes.toString());
-					return false;
+				if(args.length == 0) {
+					
+					if(homes.size() == 0) {
+						p.sendMessage(prefixError + ChatColor.RED + "Vous n'avez pas de home. /sethome <Nom du home> pour en créer un !");
+						return false;
+					}else {
+						p.sendMessage(prefixGame + ChatColor.RED + "Voici la liste de vos homes : " + ChatColor.AQUA + homes.toString());
+						return false;
+					}
 				}
 				
 				for(int i = 0; i <= homes.size()-1; i++) {
@@ -65,7 +66,7 @@ public class CommandsPrincipal implements CommandExecutor {
 						Location home = new Location(world, x, y, z, Yaw, Pitch);
 						
 						p.teleport(home);
-						p.sendMessage(prefixGame + ChatColor.AQUA + "Vous avez été téléporter à votre home : " + args[0].toString());
+						p.sendMessage(prefixGame + ChatColor.AQUA + "Vous avez été téléporter à votre home : " + ChatColor.RED + args[0].toString());
 
 						return true;
 					}
@@ -75,6 +76,8 @@ public class CommandsPrincipal implements CommandExecutor {
 				return false;
 				
 			}else if(cmd.getName().equalsIgnoreCase("sethome")) {
+				
+				ArrayList<String> homes = getHomes(p);
 				
 				if(!p.hasPermission("sethome.sethome")) {
 					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous"
@@ -101,7 +104,40 @@ public class CommandsPrincipal implements CommandExecutor {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				p.sendMessage("home create");
+				p.sendMessage(prefixGame + ChatColor.RED + args[0].toString() + ChatColor.AQUA + " a été créer !");
+				
+				
+			}else if(cmd.getName().equalsIgnoreCase("delhome")) {
+				
+				ArrayList<String> homes = getHomes(p);
+
+				
+				if(!p.hasPermission("sethome.delhome")) {
+					p.sendMessage(prefixPerm + ChatColor.RED + "Vous n'avez pas les permissions suffisantes pour exécuter cette commande ! Veuillez vous diriger vers un membre du staff si vous pensez que vous"
+							+ "devriez avoir accès à cette commande.");
+					return false;
+				}
+				
+				if(args.length == 0) {
+					p.sendMessage(prefixError + ChatColor.RED + "La commande est /delhome <Nom du home> !");
+					return false;
+				}
+				
+				if(!homes.contains(args[0].toString())) {
+					p.sendMessage(prefixError + ChatColor.AQUA + args[0].toString() + ChatColor.RED + " n'a pas été trouvé !");
+					return false;
+				}
+				
+				plugin.getHomesConfig().set("Home." + p.getUniqueId().toString() + "." + args[0].toString(), null);
+				
+				try {
+					plugin.getHomesConfig().save(plugin.homesFile);
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				p.sendMessage(prefixGame + ChatColor.AQUA + "L'home " + ChatColor.RED + args[0].toString() + ChatColor.AQUA + " a été supprimé !");
+				
 				
 				
 			}
@@ -115,6 +151,14 @@ public class CommandsPrincipal implements CommandExecutor {
 		
 		
 		return false;
+	}
+	
+	ArrayList<String> getHomes(Player p){
+		ArrayList<String> homes = new ArrayList<String>();
+		for(String string : plugin.getHomesConfig().getConfigurationSection("Home." + p.getUniqueId().toString()).getKeys(false)) {
+			homes.add(string);
+		}
+		return homes;
 	}
 
 }
